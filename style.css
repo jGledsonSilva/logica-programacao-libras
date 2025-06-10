@@ -105,6 +105,39 @@ button:hover {
     background-color: #4cae4c;
 }
 
+/* Estilos para a tela de Boas-Vindas e Carregamento */
+#boas-vindas,
+#tela-carregamento {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    /* Ocupa a tela inteira */
+    text-align: center;
+    padding: 20px;
+}
+
+#boas-vindas input[type="text"] {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 300px;
+}
+
+#boas-vindas button,
+#tela-carregamento button {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+/* Ocultar elementos inicialmente */
+.hidden {
+    display: none !important;
+}
+
 /* Estilos para o Dashboard */
 #dashboard-progresso {
     background-color: #e9ecef;
@@ -263,4 +296,101 @@ footer {
     /* Pode precisar de ajuste dependendo do conteúdo */
     bottom: 0;
     width: 100%;
+}
+
+/* Estilos para o Modal de Parabéns */
+.modal {
+    position: fixed;
+    /* Fica fixo na tela */
+    z-index: 1000;
+    /* Fica sobre outros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    /* Permite scroll se o conteúdo for maior */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Fundo escurecido */
+    display: flex;
+    /* Para centralizar o conteúdo do modal */
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-conteudo {
+    background-color: #fff;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-fechar {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal-fechar:hover,
+.modal-fechar:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilos para a Topbar */
+#topbar {
+    background-color: #2c3e50;
+    /* Cor de fundo da topbar */
+    color: #ecf0f1;
+    /* Cor do texto */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    /* Alinha nome à esquerda e botões à direita */
+    align-items: center;
+    position: fixed;
+    /* Fixa no topo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001;
+    /* Garante que fique acima de outros elementos, exceto modal talvez */
+    box-sizing: border-box;
+    /* Para que padding não aumente a largura total */
+}
+
+#topbarNomeUsuario {
+    font-weight: bold;
+}
+
+#topbar-botoes button {
+    background-color: #3498db;
+    /* Cor dos botões na topbar */
+    color: white;
+    padding: 8px 15px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#topbar-botoes button:hover {
+    background-color: #2980b9;
+}
+
+/* Ajuste no main para não ficar embaixo da topbar */
+main#main-dashboard {
+    margin-top: 60px;
+    /* Altura aproximada da topbar + um pouco de espaço */
 }

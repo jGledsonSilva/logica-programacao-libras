@@ -9,10 +9,31 @@
 </head>
 
 <body>
-    <header>
+    <div id="topbar" style="display: none;">
+        <span id="topbarNomeUsuario"></span>
+        <div id="topbar-botoes">
+            <button id="btnReiniciar">Reiniciar</button>
+            <button id="btnSair">Sair</button>
+        </div>
+    </div>
+
+    <section id="boas-vindas">
+        <h2>Bem-vindo(a)!</h2>
+        <p>Qual é o seu nome?</p>
+        <input type="text" id="inputNome" placeholder="Digite seu nome">
+        <button id="btnIniciarCurso">Iniciar</button>
+    </section>
+
+    <section id="tela-carregamento" style="display: none;">
+        <h2>Carregando...</h2>
+        <p>Preparando seu dashboard!</p>
+        <!-- Você pode adicionar um GIF de carregamento aqui -->
+    </section>
+
+    <header id="header-principal" style="display: none;">
         <h1>Dashboard de Aprendizagem: Decisões Lógicas</h1>
     </header>
-    <main>
+    <main id="main-dashboard" style="display: none;">
         <section id="dashboard-progresso">
             <h2>Meu Progresso</h2>
             <div class="barra-progresso-container">
@@ -26,7 +47,7 @@
         <section id="conteudo-principal">
             <div class="personagem-guia">
                 <!-- Imagem do personagem/guia -->
-                <p>"Olá! Sou o [Nome], pronto para mais aprendizado?"</p>
+                <p id="mensagemBoasVindasUsuario">"Olá! Sou o [Nome], pronto para mais aprendizado?"</p>
             </div>
 
             <div class="caixas-conteudo">
@@ -72,9 +93,20 @@
         </section>
 
     </main>
-    <footer>
+    <footer id="footer-principal" style="display: none;">
         <p>&copy; 2025 Seu Nome/Organização</p>
     </footer>
+
+    <!-- Modal de Parabéns -->
+    <div id="modalParabens" class="modal" style="display: none;">
+        <div class="modal-conteudo">
+            <span class="modal-fechar" id="fecharModalParabens">&times;</span>
+            <h2>Parabéns, <span id="nomeUsuarioModal"></span>!</h2>
+            <p>Você concluiu todos os desafios com sucesso!</p>
+            <img src="path/to/gif_parabens.gif" alt="Parabéns em Libras" style="max-width:150px;">
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 
