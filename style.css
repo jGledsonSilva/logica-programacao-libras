@@ -1,0 +1,266 @@
+/* Estilização básica para o corpo e elementos comuns */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #333;
+}
+
+.personagem-guia {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.personagem-guia img {
+    max-width: 150px;
+    border-radius: 50%;
+}
+
+.conceito,
+.exemplo-pratico,
+.desafio-interativo {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.libras-gifs {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+}
+
+.libras-gifs figure {
+    text-align: center;
+    margin: 0;
+}
+
+.libras-gifs img {
+    max-width: 100px;
+    /* Ajuste conforme necessário */
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.visual-explicacao,
+.inline-image {
+    max-width: 100%;
+    height: auto;
+    margin: 10px 0;
+}
+
+.inline-image {
+    max-width: 50px;
+    /* Para imagens menores no texto */
+    vertical-align: middle;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+button {
+    display: inline-block;
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 5px 10px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #4cae4c;
+}
+
+/* Estilos para o Dashboard */
+#dashboard-progresso {
+    background-color: #e9ecef;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+#dashboard-progresso h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.barra-progresso-container {
+    width: 100%;
+    background-color: #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+    position: relative;
+    /* Para posicionar o texto do progresso */
+    height: 30px;
+    /* Altura da barra */
+}
+
+.barra-progresso-visual {
+    height: 100%;
+    background-color: #4caf50;
+    /* Verde para progresso */
+    border-radius: 5px;
+    overflow: hidden;
+    /* Garante que a barra interna não ultrapasse */
+}
+
+#progressoAtual {
+    height: 100%;
+    background-color: #5cb85c;
+    /* Cor da barra de progresso */
+    width: 0%;
+    /* Inicialmente 0% */
+    transition: width 0.5s ease-in-out;
+    /* Animação suave */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.barra-progresso-valor {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    /* Cor do texto dentro da barra de progresso */
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #333;
+    /* Sombra para melhor legibilidade */
+}
+
+
+.caixas-conteudo {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    /* Permite que as caixas quebrem para a próxima linha em telas menores */
+    gap: 20px;
+    /* Espaço entre as caixas */
+    margin-top: 20px;
+}
+
+.caixa {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: calc(33.333% - 20px);
+    /* Aproximadamente um terço da largura, considerando o gap */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.caixa:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.caixa h3 {
+    margin-top: 0;
+    color: #007bff;
+    /* Azul para os títulos das caixas */
+}
+
+.caixa p {
+    font-size: 0.9em;
+    color: #555;
+    min-height: 60px;
+    /* Para alinhar os botões mesmo com textos de tamanhos diferentes */
+}
+
+.btnCaixa {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.btnCaixa:hover {
+    background-color: #0056b3;
+}
+
+/* Ajustes para secao-conceito-original se usada na mesma página */
+#secao-conceito-original {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+
+
+.opcoes-desafio button img {
+    display: block;
+    margin: 5px auto 0;
+    max-width: 80px;
+}
+
+#feedbackArea {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#feedbackArea p {
+    margin: 0;
+    font-weight: bold;
+}
+
+#feedbackArea img {
+    max-width: 80px;
+    margin-top: 5px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #333;
+    color: #fff;
+    position: relative;
+    /* Pode precisar de ajuste dependendo do conteúdo */
+    bottom: 0;
+    width: 100%;
+}

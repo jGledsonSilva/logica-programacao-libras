@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Aprendizagem: Decisões Lógicas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Dashboard de Aprendizagem: Decisões Lógicas</h1>
+    </header>
+    <main>
+        <section id="dashboard-progresso">
+            <h2>Meu Progresso</h2>
+            <div class="barra-progresso-container">
+                <div class="barra-progresso-valor" id="progressoValor">0%</div>
+                <div class="barra-progresso-visual">
+                    <div id="progressoAtual" style="width: 0%;"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="conteudo-principal">
+            <div class="personagem-guia">
+                <!-- Imagem do personagem/guia -->
+                <p>"Olá! Sou o [Nome], pronto para mais aprendizado?"</p>
+            </div>
+
+            <div class="caixas-conteudo">
+                <div class="caixa" id="caixaIntroducao">
+                    <h3>Revisitar Conceito SE...ENTÃO...</h3>
+                    <p>Entenda o "SE... ENTÃO..." com explicações e GIFs em Libras.</p>
+                    <button class="btnCaixa" data-href="#secao-conceito-original">Ver Conceito</button>
+                </div>
+                <div class="caixa" id="caixaExemploCondicional">
+                    <h3>Exemplo: SE...ENTÃO...</h3>
+                    <p>Veja o "SE... ENTÃO..." em ação com o exemplo da maçã.</p>
+                    <button id="btnExemploCondicional">Ver Exemplo</button>
+                </div>
+                <div class="caixa" id="caixaDesafioCondicional">
+                    <h3>Desafio: SE...ENTÃO...</h3>
+                    <p>Encare o desafio do semáforo e tome a decisão certa!</p>
+                    <button id="btnDesafioCondicional">Iniciar Desafio</button>
+                </div>
+                <div class="caixa" id="caixaLoops">
+                    <h3>Aprender Loops (Repetições)</h3>
+                    <p>Descubra como repetir ações com os loops!</p>
+                    <button id="btnConceitoLoops">Ver Conceito de Loops</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção do conceito original, pode ser oculta/mostrada ou estar em outra página -->
+        <section id="secao-conceito-original" style="display: none;">
+            <h2>Entendendo SE... ENTÃO...</h2>
+            <div class="libras-gifs">
+                <figure>
+                    <img src="path/to/sinal_se.gif" alt="Sinal de SE em Libras">
+                    <figcaption>SE</figcaption>
+                </figure>
+                <figure>
+                    <img src="path/to/sinal_entao.gif" alt="Sinal de ENTÃO em Libras">
+                    <figcaption>ENTÃO</figcaption>
+                </figure>
+            </div>
+            <p>Na programação e na vida, usamos 'SE... ENTÃO...' para escolher caminhos. SE (uma condição é verdadeira)
+                ENTÃO (uma ação acontece).</p>
+            <img src="path/to/fluxograma_decisao.png" alt="Fluxograma básico de decisão" class="visual-explicacao">
+        </section>
+
+    </main>
+    <footer>
+        <p>&copy; 2025 Seu Nome/Organização</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>
