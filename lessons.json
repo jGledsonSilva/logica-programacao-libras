@@ -3,6 +3,7 @@
         "id": "algoritmos",
         "title": "O que são Algoritmos?",
         "number": 1,
+        "video_path": "tp1.mp4",
         "content": [
             "Um algoritmo é uma sequência de passos para realizar uma tarefa ou resolver um problema.",
             "Pense em uma receita de bolo: ela é um algoritmo!",
@@ -23,6 +24,7 @@
         "id": "sequencia",
         "title": "Comandos e Sequências",
         "number": 2,
+        "video_path": "tp2.mp4",
         "content": [
             "Imagine que você está dando instruções para um robô. Cada instrução clara e direta é um <strong>comando</strong>.",
             "Uma <strong>sequência</strong> é a ordem em que esses comandos são executados. A ordem é crucial!",
@@ -44,6 +46,7 @@
         "id": "condicionais",
         "title": "Condicionais (Se... Então...)",
         "number": 3,
+        "video_path": "tp3.mp4",
         "content": [
             "Condicionais permitem que seu programa tome decisões.",
             "<strong>Exemplo em Pseudocódigo:</strong>",
@@ -64,8 +67,9 @@
         "id": "repeticoes",
         "title": "Repetições (Loops)",
         "number": 4,
+        "video_path": "tp4.mp4",
         "content": [
-            "Loops servem para repetir uma ação várias vezes sem ter que escrever o mesmo código de novo e de novo.",
+            "Loops servem para repetir uma ação várias vezes senza ter que escrever o mesmo código de novo e de novo.",
             "<strong>Exemplo com Contador (PARA):</strong>",
             "<pre style='background-color:#2d2d2d; color:#f8f8f2; padding: 15px; border-radius: 5px; text-align: left;'><code>PARA i DE 1 ATÉ 3 FAÇA\n    ForjeUmaEspada()\nFIM_PARA</code></pre>"
         ],
@@ -84,6 +88,7 @@
         "id": "eventos",
         "title": "Eventos (Interação)",
         "number": 5,
+        "video_path": "tp5.mp4",
         "content": [
             "Eventos são gatilhos, como clicar um botão ou pressionar uma tecla. O programa reage a essas ações.",
             "<strong>Exemplo em Pseudocódigo:</strong>",
@@ -104,6 +109,7 @@
         "id": "desafio_final",
         "title": "Desafio Final: Crie seu Jogo!",
         "number": 6,
+        "video_path": "tp6.mp4",
         "content": [
             "É hora de juntar tudo! Use os conceitos de sequências, loops, condicionais e eventos para montar a lógica de um mini-jogo."
         ],

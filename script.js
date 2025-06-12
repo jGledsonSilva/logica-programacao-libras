@@ -28,6 +28,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const lessonViewActivityFeedback = document.getElementById('lessonViewActivityFeedback'); // NOVO
     const btnVoltarDashboard = document.getElementById('btnVoltarDashboard');
 
+    const lessonViewVlibrasContent = document.getElementById('lessonViewVlibrasContent'); // NOVO: Para o vídeo da lição
+    const lessonVideo = document.getElementById('lessonVideo'); // NOVO: Elemento de vídeo da lição
+    const btnMarcarConcluido = document.getElementById('btnMarcarConcluido'); // NOVO
+
     const modalParabens = document.getElementById('modalParabens');
     const fecharModalParabens = document.getElementById('fecharModalParabens');
     const nomeUsuarioModal = document.getElementById('nomeUsuarioModal');
@@ -69,11 +73,18 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateDashboard() {
         if (!dashboardColunaEsquerda || !lessons || Object.keys(lessons).length === 0) { return; }
         dashboardColunaEsquerda.innerHTML = '';
-        dashboardColunaDireita.innerHTML = '';
+        // Não limpa a dashboardColunaDireita inteira para preservar o vídeo do dashboard, se ele já estiver lá.
+        // A lógica de adicionar o card de desafio e o placeholder VLibras (que agora é o vídeo) precisa ser ajustada.
 
         const nomeUsuario = localStorage.getItem('nomeUsuario');
         if (dashboardNomeUsuarioEl && nomeUsuario) {
             dashboardNomeUsuarioEl.textContent = nomeUsuario.toUpperCase();
+            // Ajuste de rotação do nome do usuário
+            if (nomeUsuario.length > 10) {
+                dashboardNomeUsuarioEl.classList.add('rotate-nome');
+            } else {
+                dashboardNomeUsuarioEl.classList.remove('rotate-nome');
+            }
         }
 
         let lessonsCompletedCount = 0;
@@ -90,27 +101,47 @@ document.addEventListener('DOMContentLoaded', function () {
             dashboardColunaEsquerda.appendChild(card);
         });
 
+        // Limpa apenas os cards de desafio anteriores da coluna da direita
+        const existingChallengeCard = dashboardColunaDireita.querySelector('.dashboard-lesson-card.desafio');
+        if (existingChallengeCard) {
+            existingChallengeCard.remove();
+        }
+
         const challengeCard = createLessonCard('desafio_final', '★', lessons.desafio_final.title);
         challengeCard.classList.add('desafio');
         const allPrerequisitesCompleted = lessonOrder.every(id => localStorage.getItem(`${id}Completed`) === 'true');
+
         if (!allPrerequisitesCompleted) {
             challengeCard.classList.add('bloqueado');
             challengeCard.title = "Complete todas as lições para desbloquear";
+            challengeCard.addEventListener('click', (event) => {
+                event.stopPropagation(); // Impede que o evento de clique se propague para outros elementos
+                showModal("Você precisa completar todas as lições anteriores para acessar o Desafio Final.");
+            });
         } else {
             challengeCard.addEventListener('click', () => showLesson('desafio_final'));
         }
+
         if (localStorage.getItem('desafio_finalCompleted') === 'true') {
             challengeCard.classList.add('concluido');
+            lessonsCompletedCount++; // Adiciona o desafio final à contagem se concluído
         }
-        dashboardColunaDireita.appendChild(challengeCard);
+        // Adiciona o card de desafio ANTES do placeholder/vídeo do VLibras
+        const vlibrasPlaceholderDiv = document.getElementById('vlibras-placeholder');
+        if (vlibrasPlaceholderDiv) {
+            dashboardColunaDireita.insertBefore(challengeCard, vlibrasPlaceholderDiv);
+        } else {
+            dashboardColunaDireita.appendChild(challengeCard); // Fallback caso o placeholder não exista
+        }
 
-        const vlibrasPlaceholder = document.createElement('div');
-        vlibrasPlaceholder.id = 'vlibras-placeholder';
-        vlibrasPlaceholder.innerHTML = 'Área para<br>VLibras';
-        dashboardColunaDireita.appendChild(vlibrasPlaceholder);
+        // O vídeo do dashboard (dashboard.mp4) já está no HTML, apenas garantimos que ele toque.
+        const dashboardVideo = document.getElementById('dashboardVideo');
+        if (dashboardVideo) {
+            dashboardVideo.play().catch(error => console.log("Dashboard video autoplay was prevented: ", error));
+        }
 
-        const totalLessons = lessonOrder.length;
-        const progressPercentage = totalLessons > 0 ? (lessonsCompletedCount / totalLessons) * 100 : 0;
+        const totalItemsParaProgresso = lessonOrder.length + 1; // +1 para o desafio final
+        const progressPercentage = totalItemsParaProgresso > 0 ? (lessonsCompletedCount / totalItemsParaProgresso) * 100 : 0;
         if (dashboardProgressoAtual) dashboardProgressoAtual.style.width = `${progressPercentage}%`;
         if (dashboardProgressoValor) dashboardProgressoValor.textContent = `${Math.round(progressPercentage)}%`;
     }
@@ -154,6 +185,15 @@ document.addEventListener('DOMContentLoaded', function () {
             lessonViewExplanationText.innerHTML = '<p>Explicação não disponível.</p>';
         }
 
+        // Carregar vídeo da lição
+        if (lessonVideo && lesson.video_path) {
+            lessonVideo.src = lesson.video_path;
+            lessonVideo.load(); // Garante que o novo source seja carregado
+            lessonVideo.play().catch(error => console.log("Lesson video autoplay was prevented: ", error));
+        } else if (lessonVideo) {
+            lessonVideo.src = ""; // Limpa o src se não houver vídeo
+        }
+
         // --- LÓGICA DA ATIVIDADE ---
         const activity = lesson.activity;
         if (activity) {
@@ -179,6 +219,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const isCompleted = localStorage.getItem(`${lessonId}Completed`) === 'true';
         btnVerificarAtividade.disabled = isCompleted;
+        btnMarcarConcluido.disabled = isCompleted;
+        btnMarcarConcluido.style.display = lesson.activity ? 'none' : 'inline-block';
     }
 
     // NOVO: Função para verificar a resposta da atividade
@@ -194,6 +236,8 @@ document.addEventListener('DOMContentLoaded', function () {
             lessonViewActivityFeedback.className = 'activity-feedback-text correct';
             localStorage.setItem(`${currentLessonId}Completed`, 'true');
             btnVerificarAtividade.disabled = true;
+            btnMarcarConcluido.disabled = true; // Também desabilita o marcar concluído
+            updateDashboard(); // Atualiza o dashboard para refletir a conclusão
             checkFinalCompletion();
         } else {
             lessonViewActivityFeedback.textContent = "Resposta incorreta. Tente novamente!";
@@ -298,6 +342,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (inputNome) inputNome.value = ''; // Limpa o campo do nome
                 }
             );
+        });
+    }
+
+    if (btnMarcarConcluido) {
+        btnMarcarConcluido.addEventListener('click', () => {
+            if (currentLessonId && !lessons[currentLessonId].activity) { // Só marca se não houver atividade
+                localStorage.setItem(`${currentLessonId}Completed`, 'true');
+                btnMarcarConcluido.disabled = true;
+                if (btnVerificarAtividade) btnVerificarAtividade.disabled = true; // Desabilita o de atividade também por segurança
+                updateDashboard();
+                showModal("Lição marcada como concluída!");
+                checkFinalCompletion();
+            }
         });
     }
 

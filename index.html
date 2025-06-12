@@ -56,7 +56,10 @@
 
             <div class="dashboard-coluna-direita">
                 <div id="vlibras-placeholder">
-                    VLIBRAS
+                    <video id="dashboardVideo" width="100%" height="auto" controls autoplay muted loop>
+                        <source src="dashboard.mp4" type="video/mp4">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
                 </div>
             </div>
         </div>
@@ -77,37 +80,30 @@
                 <div id="lessonViewExplanationText" class="card-text-content">
                     Texto da explicação da lição virá aqui...
                 </div>
-                <button class="card-action-button" aria-label="Ver explicação em vídeo">
-                    <img src="placeholder_play_icon.png" alt="Play">
-                </button>
             </div>
             <div class="lesson-card practical-exercise-card">
                 <h3>Exercício Prático</h3>
-                <div id="lessonViewExerciseText" class="card-text-content">
-                    Descrição do exercício prático virá aqui...
+                <p id="lessonViewActivityQuestion" class="activity-question-text">Pergunta da atividade virá aqui...
+                </p>
+                <div id="lessonViewActivityOptions" class="activity-options-container">
                 </div>
-
-                <div class="activity-section">
-                    <h4>Atividade: Qual é a correta?</h4>
-                    <p id="lessonViewActivityQuestion" class="activity-question-text">Pergunta da atividade virá aqui...
-                    </p>
-                    <div id="lessonViewActivityOptions" class="activity-options-container">
-                    </div>
-                    <button id="btnVerificarAtividade" class="button-verificar-atividade">Verificar Resposta</button>
-                    <div id="lessonViewActivityFeedback" class="activity-feedback-text"></div>
-                </div>
-                <button class="card-action-button" aria-label="Ver exercício em vídeo">
-                    <img src="placeholder_play_icon.png" alt="Play">
-                </button>
+                <button id="btnVerificarAtividade" class="button-verificar-atividade">Verificar Resposta</button>
+                <div id="lessonViewActivityFeedback" class="activity-feedback-text"></div>
             </div>
             <div class="lesson-card vlibras-card">
                 <h3>VLibras</h3>
                 <div id="lessonViewVlibrasContent" class="card-vlibras-content">
-                    <p>Conteúdo VLibras</p>
+                    <video id="lessonVideo" width="100%" height="auto" controls autoplay muted>
+                        <source src="" type="video/mp4">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
                 </div>
             </div>
         </div>
-        <button id="btnVoltarDashboard" class="button-voltar">Voltar ao Dashboard</button>
+        <div class="lesson-view-actions">
+            <button id="btnMarcarConcluido">Marcar como Concluído</button>
+            <button id="btnVoltarDashboard" class="button-voltar">Voltar ao Dashboard</button>
+        </div>
     </section>
 
     <section id="challenge-view" style="display: none;">
