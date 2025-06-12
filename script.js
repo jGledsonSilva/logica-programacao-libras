@@ -1,237 +1,438 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const inputNome = document.getElementById('inputNome');
-    const btnIniciarCurso = document.getElementById('btnIniciarCurso');
+    let lessons = {};
+    let currentLessonId = null;
+    const apiKey = "YOUR_GEMINI_API_KEY";
+
     const secaoBoasVindas = document.getElementById('boas-vindas');
     const telaCarregamento = document.getElementById('tela-carregamento');
-    const headerPrincipal = document.getElementById('header-principal');
     const mainDashboard = document.getElementById('main-dashboard');
-    const footerPrincipal = document.getElementById('footer-principal');
-    const mensagemBoasVindasUsuario = document.getElementById('mensagemBoasVindasUsuario');
-    const modalParabens = document.getElementById('modalParabens');
-    const fecharModalParabens = document.getElementById('fecharModalParabens');
-    const nomeUsuarioModal = document.getElementById('nomeUsuarioModal');
+    const inputNome = document.getElementById('inputNome');
+    const btnIniciarCurso = document.getElementById('btnIniciarCurso');
 
-    // Elementos da Topbar
-    const topbar = document.getElementById('topbar');
-    const topbarNomeUsuario = document.getElementById('topbarNomeUsuario');
-    const btnSair = document.getElementById('btnSair');
-    const btnReiniciar = document.getElementById('btnReiniciar');
+    const dashboardColunaEsquerda = document.querySelector('.dashboard-coluna-esquerda');
+    const dashboardColunaDireita = document.querySelector('.dashboard-coluna-direita');
+    const dashboardNomeUsuarioEl = document.getElementById('dashboardNomeUsuario');
+    const dashboardProgressoAtual = document.getElementById('dashboardProgressoAtual');
+    const btnDashboardReiniciar = document.getElementById('btnDashboardReiniciar');
+    const btnDashboardSair = document.getElementById('btnDashboardSair');
+
+    const lessonView = document.getElementById('lesson-view');
+    const lessonViewTopicNumber = document.getElementById('lessonViewTopicNumber');
+    const lessonViewTopicTitle = document.getElementById('lessonViewTopicTitle');
+    const lessonViewExplanationText = document.getElementById('lessonViewExplanationText');
+    const lessonViewExerciseText = document.getElementById('lessonViewExerciseText');
+    const lessonViewVlibrasVideo = document.getElementById('lessonViewVlibrasVideo');
+    const btnVoltarDashboard = document.getElementById('btnVoltarDashboard');
+
+    const challengeView = document.getElementById('challenge-view');
+    const challengeFeedback = document.getElementById('challenge-feedback');
+    const draggableItemsContainer = document.getElementById('draggable-items');
+    const dropzone = document.getElementById('dropzone');
+    const checkChallengeBtn = document.getElementById('check-challenge-btn');
+    const backToDashboardFromChallengeBtn = document.getElementById('back-to-dashboard-from-challenge-btn');
+
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalMessage = document.getElementById('modalMessage');
+    const modalBtnConfirm = document.getElementById('modalBtnConfirm');
+    const modalBtnCancel = document.getElementById('modalBtnCancel');
+    let modalConfirmCallback = null;
+
+    async function loadLessons() {
+        try {
+            const response = await fetch('lessons.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const lessonsData = await response.json();
+            lessons = lessonsData.reduce((acc, lesson) => {
+                acc[lesson.id] = lesson;
+                return acc;
+            }, {});
+            updateDashboard();
+        } catch (error) {
+            console.error("Erro ao carregar as lições:", error);
+            if (dashboardColunaEsquerda) {
+                dashboardColunaEsquerda.innerHTML = "<p style='color:red; text-align:center;'>Erro ao carregar o conteúdo das lições. Tente recarregar a página.</p>";
+            }
+        }
+    }
+
+    const lessonOrder = ['algoritmos', 'sequencia', 'condicionais', 'repeticoes', 'eventos'];
+
+    function showModal(message, showCancelButton = false, onConfirm = null) {
+        if (!modalOverlay || !modalMessage || !modalBtnConfirm || !modalBtnCancel) {
+            console.error("Elementos do modal não encontrados. Usando alert() como fallback.");
+            if (confirm(message)) {
+                if (onConfirm) onConfirm();
+            }
+            return;
+        }
+
+        modalMessage.textContent = message;
+        modalBtnCancel.style.display = showCancelButton ? 'inline-block' : 'none';
+        modalOverlay.style.display = 'flex';
+
+        modalConfirmCallback = onConfirm;
+    }
+
+    if (modalBtnConfirm) {
+        modalBtnConfirm.addEventListener('click', () => {
+            modalOverlay.style.display = 'none';
+            if (modalConfirmCallback) {
+                modalConfirmCallback();
+                modalConfirmCallback = null;
+            }
+        });
+    }
+
+    if (modalBtnCancel) {
+        modalBtnCancel.addEventListener('click', () => {
+            modalOverlay.style.display = 'none';
+            modalConfirmCallback = null;
+        });
+    }
+
+    function updateDashboard() {
+        if (!dashboardColunaEsquerda || !dashboardColunaDireita || !lessons || Object.keys(lessons).length === 0) {
+            return;
+        }
+        dashboardColunaEsquerda.innerHTML = '';
+        dashboardColunaDireita.innerHTML = '';
+
+        const nomeUsuario = localStorage.getItem('nomeUsuario');
+        if (dashboardNomeUsuarioEl && nomeUsuario) {
+            dashboardNomeUsuarioEl.textContent = nomeUsuario.toUpperCase();
+            if (nomeUsuario.length > 8) {
+                dashboardNomeUsuarioEl.style.transform = 'translate(-50%, -50%)';
+            } else {
+                dashboardNomeUsuarioEl.style.transform = 'translate(-50%, -50%) rotate(6.4deg)';
+            }
+        }
+
+        let lessonsCompletedCount = 0;
+
+        lessonOrder.forEach((lessonId, index) => {
+            const lesson = lessons[lessonId];
+            if (!lesson) return;
+
+            const card = document.createElement('div');
+            card.classList.add('dashboard-lesson-card');
+            card.dataset.lessonId = lessonId;
+
+            const numberSpan = document.createElement('span');
+            numberSpan.classList.add('lesson-number');
+            numberSpan.textContent = index + 1;
+
+            const titleSpan = document.createElement('span');
+            titleSpan.classList.add('lesson-title-text');
+            titleSpan.textContent = lesson.title.split(':')[1]?.trim() || lesson.title;
+
+            card.appendChild(numberSpan);
+            card.appendChild(titleSpan);
+
+            const isCompleted = localStorage.getItem(`${lessonId}Completed`) === 'true';
+            if (isCompleted) {
+                card.classList.add('concluido');
+                lessonsCompletedCount++;
+            }
+
+            card.addEventListener('click', () => showLesson(lessonId));
+            dashboardColunaEsquerda.appendChild(card);
+        });
+
+        const challengeCard = document.createElement('div');
+        challengeCard.classList.add('dashboard-lesson-card', 'desafio');
+        challengeCard.dataset.lessonId = 'desafioFinal';
+
+        const challengeNumberSpan = document.createElement('span');
+        challengeNumberSpan.classList.add('lesson-number');
+        challengeNumberSpan.textContent = lessonOrder.length + 1;
+
+        const challengeTitleSpan = document.createElement('span');
+        challengeTitleSpan.classList.add('lesson-title-text');
+        challengeTitleSpan.textContent = "Desafio Final";
+
+        challengeCard.appendChild(challengeNumberSpan);
+        challengeCard.appendChild(challengeTitleSpan);
+
+        const allPrerequisitesCompleted = lessonOrder.every(id => localStorage.getItem(`${id}Completed`) === 'true');
+
+        if (allPrerequisitesCompleted) {
+            challengeCard.classList.remove('locked');
+            challengeCard.addEventListener('click', showChallenge);
+        } else {
+            challengeCard.classList.add('locked');
+            challengeCard.title = "Complete todas as lições para desbloquear";
+        }
+        dashboardColunaDireita.appendChild(challengeCard);
+
+        const vlibrasPlaceholder = document.createElement('div');
+        vlibrasPlaceholder.id = 'vlibras-placeholder';
+        vlibrasPlaceholder.textContent = 'VLIBRAS';
+        dashboardColunaDireita.appendChild(vlibrasPlaceholder);
+
+        const totalLessons = lessonOrder.length;
+        const progressPercentage = totalLessons > 0 ? (lessonsCompletedCount / totalLessons) * 100 : 0;
+        if (dashboardProgressoAtual) {
+            dashboardProgressoAtual.style.width = `${progressPercentage}%`;
+        }
+    }
+
+    function showDashboard() {
+        secaoBoasVindas.style.display = 'none';
+        telaCarregamento.style.display = 'none';
+        mainDashboard.style.display = 'flex';
+        lessonView.style.display = 'none';
+        challengeView.style.display = 'none';
+        updateDashboard();
+    }
+
+    function showLesson(lessonId) {
+        const lesson = lessons[lessonId];
+        if (!lesson) {
+            console.error("Lição não encontrada:", lessonId);
+            return;
+        }
+        currentLessonId = lessonId;
+        mainDashboard.style.display = 'none';
+        lessonView.style.display = 'flex';
+        challengeView.style.display = 'none';
+
+        if (lessonViewTopicNumber) lessonViewTopicNumber.textContent = lesson.number || '';
+        if (lessonViewTopicTitle) lessonViewTopicTitle.textContent = lesson.title.split(':')[1]?.trim() || lesson.title;
+        if (lessonViewExplanationText) lessonViewExplanationText.innerHTML = lesson.text || 'Explicação não disponível.';
+        if (lessonViewExerciseText) lessonViewExerciseText.innerHTML = lesson.exercise || 'Exercício não disponível.';
+        if (lessonViewVlibrasVideo) {
+            lessonViewVlibrasVideo.innerHTML = lesson.media || '<p>Conteúdo VLibras não disponível.</p>';
+        }
+
+        const isCompleted = localStorage.getItem(`${lessonId}Completed`) === 'true';
+    }
+
+    function showChallenge() {
+        const allPrerequisitesCompleted = lessonOrder.every(id => localStorage.getItem(`${id}Completed`) === 'true');
+        if (!allPrerequisitesCompleted) {
+            showModal("Você precisa completar todas as lições antes de iniciar o desafio final!");
+            return;
+        }
+        mainDashboard.style.display = 'none';
+        lessonView.style.display = 'none';
+        challengeView.style.display = 'block';
+        setupChallengeItems();
+        if (challengeFeedback) challengeFeedback.innerHTML = '';
+    }
+
+    function completeLesson() {
+        if (currentLessonId) {
+            localStorage.setItem(`${currentLessonId}Completed`, 'true');
+            updateDashboard();
+            const allLessonsDone = lessonOrder.every(id => localStorage.getItem(`${id}Completed`) === 'true');
+            if (allLessonsDone) {
+                console.log("Todas as lições concluídas! Desafio final desbloqueado.");
+            }
+        }
+    }
 
     if (btnIniciarCurso) {
-        btnIniciarCurso.addEventListener('click', function () {
-            const nomeUsuario = inputNome.value.trim();
-            if (nomeUsuario) {
-                localStorage.setItem('nomeUsuario', nomeUsuario);
-                localStorage.setItem('progresso', '0');
-                atualizarProgresso();
-
+        btnIniciarCurso.addEventListener('click', () => {
+            const nome = inputNome.value.trim();
+            if (nome) {
+                localStorage.setItem('nomeUsuario', nome);
                 secaoBoasVindas.style.display = 'none';
                 telaCarregamento.style.display = 'flex';
 
-                setTimeout(function () {
-                    telaCarregamento.style.display = 'none';
-                    if (topbar) topbar.style.display = 'flex'; // Mostra a topbar
-                    if (headerPrincipal) headerPrincipal.style.display = 'block';
-                    if (mainDashboard) mainDashboard.style.display = 'block';
-                    if (footerPrincipal) footerPrincipal.style.display = 'block';
-
-                    carregarDadosUsuario(); // Carrega nome e atualiza topbar e mensagem de boas-vindas
-                    // atualizarProgresso(); // Já chamado antes de mostrar o dashboard
-                }, 2000);
+                loadLessons().then(() => {
+                    showDashboard();
+                }).catch(error => {
+                    console.error("Erro ao carregar lições após inserir nome:", error);
+                    if (telaCarregamento) {
+                        telaCarregamento.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar os dados do curso.<br>Tente recarregar a página.</p>';
+                    }
+                    showModal("Erro ao carregar os dados do curso. Tente recarregar a página.");
+                });
             } else {
-                alert('Por favor, digite seu nome.');
+                showModal("Por favor, digite seu nome para continuar.");
             }
         });
     }
 
-    if (btnSair) {
-        btnSair.addEventListener('click', function () {
-            localStorage.removeItem('nomeUsuario');
-            localStorage.removeItem('progresso');
-            // Ocultar todas as seções do dashboard e a topbar
-            if (topbar) topbar.style.display = 'none';
-            if (headerPrincipal) headerPrincipal.style.display = 'none';
-            if (mainDashboard) mainDashboard.style.display = 'none';
-            if (footerPrincipal) footerPrincipal.style.display = 'none';
-            if (modalParabens) modalParabens.style.display = 'none';
-            // Mostrar seção de boas-vindas
-            if (secaoBoasVindas) secaoBoasVindas.style.display = 'flex';
-            // Opcional: recarregar a página para um reset completo do estado da UI
-            // window.location.reload(); 
+    if (btnDashboardReiniciar) {
+        btnDashboardReiniciar.addEventListener('click', () => {
+            showModal("Tem certeza que deseja reiniciar todo o seu progresso?", true, () => {
+                lessonOrder.forEach(id => {
+                    localStorage.removeItem(`${id}Completed`);
+                });
+                localStorage.removeItem('challengeCompleted');
+                updateDashboard();
+                showModal("Progresso reiniciado!");
+            });
         });
     }
 
-    if (btnReiniciar) {
-        btnReiniciar.addEventListener('click', function () {
-            localStorage.setItem('progresso', '0');
-            atualizarProgresso();
-            if (modalParabens) {
-                modalParabens.style.display = 'none'; // Esconde o modal se estiver aberto
-            }
-            // Poderia adicionar uma mensagem "Progresso reiniciado!"
-            alert("Seu progresso foi reiniciado!");
+    if (btnDashboardSair) {
+        btnDashboardSair.addEventListener('click', () => {
+            showModal("Tem certeza que deseja sair? Seu nome e progresso serão apagados.", true, () => {
+                localStorage.clear();
+                secaoBoasVindas.style.display = 'flex';
+                mainDashboard.style.display = 'none';
+                lessonView.style.display = 'none';
+                challengeView.style.display = 'none';
+                if (inputNome) inputNome.value = '';
+            });
         });
     }
 
-    function exibirModalParabens() {
-        const nomeSalvo = localStorage.getItem('nomeUsuario');
-        if (nomeUsuarioModal && nomeSalvo) {
-            nomeUsuarioModal.textContent = nomeSalvo;
+    if (btnVoltarDashboard) {
+        btnVoltarDashboard.addEventListener('click', showDashboard);
+    }
+    if (backToDashboardFromChallengeBtn) {
+        backToDashboardFromChallengeBtn.addEventListener('click', showDashboard);
+    }
+
+    async function callGemini(prompt, event) {
+        if (!apiKey || apiKey === "YOUR_GEMINI_API_KEY") {
+            console.warn("API Key do Gemini não configurada.");
+            return "API Key não configurada. Verifique o arquivo script.js.";
         }
-        if (modalParabens) {
-            modalParabens.style.display = 'flex';
-        }
-    }
+        const loadingElement = document.createElement('p');
+        loadingElement.classList.add('loading');
+        loadingElement.textContent = 'Gerando com IA...';
 
-    if (fecharModalParabens) {
-        fecharModalParabens.addEventListener('click', function () {
-            if (modalParabens) {
-                modalParabens.style.display = 'none';
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: {
+                        temperature: 0.7,
+                        topK: 1,
+                        topP: 1,
+                        maxOutputTokens: 256,
+                    },
+                }),
+            });
+
+            if (!response.ok) {
+                const errorBody = await response.text();
+                console.error("Erro na API Gemini:", response.status, errorBody);
+                throw new Error(`Erro da API: ${response.status}`);
             }
-        });
-    }
 
-    // Fechar o modal se clicar fora do conteúdo
-    window.addEventListener('click', function (event) {
-        if (event.target == modalParabens) {
-            modalParabens.style.display = "none";
-        }
-    });
-
-    // Função para carregar dados do usuário (nome, progresso)
-    function carregarDadosUsuario() {
-        const nomeSalvo = localStorage.getItem('nomeUsuario');
-        if (nomeSalvo) {
-            if (mensagemBoasVindasUsuario && mainDashboard.style.display === 'block') {
-                mensagemBoasVindasUsuario.textContent = `Olá, ${nomeSalvo}! Sou o [Nome], pronto para mais aprendizado?`;
+            const data = await response.json();
+            if (data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts.length > 0) {
+                return data.candidates[0].content.parts[0].text;
+            } else {
+                console.warn("Resposta da API Gemini não contém o texto esperado:", data);
+                return "Não foi possível obter uma resposta da IA no momento.";
             }
-            if (topbarNomeUsuario) {
-                topbarNomeUsuario.textContent = `Usuário: ${nomeSalvo}`;
-            }
-        }
-    }
-
-
-    // Lógica para index.html (Dashboard)
-    const btnExemplo = document.getElementById('btnExemplo');
-    if (btnExemplo) {
-        btnExemplo.addEventListener('click', function () {
-            localStorage.setItem('progresso', '33'); // Exemplo: 33% ao clicar em exemplo
-            atualizarProgresso();
-            window.location.href = 'exemplo.html';
-        });
-    }
-
-    const btnDesafioHome = document.getElementById('btnDesafio'); // Botão de desafio na home
-    if (btnDesafioHome) {
-        btnDesafioHome.addEventListener('click', function () {
-            // Poderia marcar o início do desafio ou manter o progresso de exemplo
-            // localStorage.setItem('progresso', '66'); 
-            atualizarProgresso();
-            window.location.href = 'desafio.html';
-        });
-    }
-
-    const btnVerConceito = document.querySelector('#caixaIntroducao .btnCaixa');
-    const secaoConceitoOriginal = document.getElementById('secao-conceito-original');
-    if (btnVerConceito && secaoConceitoOriginal) {
-        btnVerConceito.addEventListener('click', function (event) {
-            event.preventDefault(); // Previne o comportamento padrão do link se houver href="#"
-            secaoConceitoOriginal.style.display = secaoConceitoOriginal.style.display === 'none' ? 'block' : 'none';
-            // Atualiza progresso se for a primeira vez vendo o conceito
-            if (localStorage.getItem('progresso') < 10) { // Exemplo de condição
-                localStorage.setItem('progresso', '10');
-            }
-            atualizarProgresso();
-        });
-    }
-
-    // Lógica para exemplo.html
-    const btnDesafioExemplo = document.getElementById('btnDesafio'); // Botão de desafio na página de exemplo
-    if (btnDesafioExemplo && window.location.pathname.includes('exemplo.html')) { // Garante que é o botão da página de exemplo
-        btnDesafioExemplo.addEventListener('click', function () {
-            localStorage.setItem('progresso', '66'); // Exemplo: 66% ao ir para o desafio
-            atualizarProgresso();
-            window.location.href = 'desafio.html';
-        });
-    }
-
-    // Lógica para desafio.html
-    const feedbackDiv = document.getElementById('feedbackArea');
-    const opcaoParar = document.getElementById('opcaoParar');
-    const opcaoSeguir = document.getElementById('opcaoSeguir');
-
-    if (opcaoParar) {
-        opcaoParar.addEventListener('click', function () {
-            if (feedbackDiv) {
-                feedbackDiv.innerHTML = '<p style="color:green;">Correto! Devemos parar.</p><img src="path/to/sinal_correto.gif" alt="Sinal de Correto em Libras">';
-                localStorage.setItem('progresso', '100'); // 100% ao acertar o desafio
-                atualizarProgresso();
-                verificarConclusaoTotal(); // Verifica se deve exibir o modal
-            }
-        });
-    }
-
-    if (opcaoSeguir) {
-        opcaoSeguir.addEventListener('click', function () {
-            if (feedbackDiv) {
-                feedbackDiv.innerHTML = '<p style="color:red;">Errado! Tente de novo. É perigoso seguir no vermelho.</p><img src="path/to/sinal_tentar_novamente.gif" alt="Sinal de Tentar Novamente em Libras">';
-                // Não altera o progresso em caso de erro, ou pode diminuir se desejar
-            }
-        });
-    }
-
-    // Função para atualizar a barra de progresso
-    function atualizarProgresso() {
-        const progressoAtualDiv = document.getElementById('progressoAtual');
-        const progressoValorDiv = document.getElementById('progressoValor');
-        let progresso = localStorage.getItem('progresso') || '0';
-        progresso = parseInt(progresso, 10);
-
-        if (progresso < 0) progresso = 0; // Garante que não seja negativo
-        if (progresso > 100) progresso = 100; // Garante que não passe de 100
-
-        if (progressoAtualDiv) {
-            progressoAtualDiv.style.width = progresso + '%';
-        }
-        if (progressoValorDiv) {
-            progressoValorDiv.textContent = progresso + '%';
-        }
-        // Não chama verificarConclusaoTotal() aqui para não exibir o modal a cada atualização simples,
-        // apenas quando uma ação específica de conclusão ocorre.
-    }
-
-    function verificarConclusaoTotal() {
-        let progresso = parseInt(localStorage.getItem('progresso') || '0', 10);
-        if (progresso === 100) {
-            exibirModalParabens();
+        } catch (error) {
+            console.error("Erro ao chamar a API Gemini:", error);
+            return "Falha ao comunicar com a IA. Verifique o console para mais detalhes.";
         }
     }
 
-    // Lógica de inicialização da página
+    let draggedItem = null;
+    const correctOrder = ["passo1", "passo2", "passo3", "passo4"];
+
+    function setupChallengeItems() {
+        if (!draggableItemsContainer || !dropzone) return;
+
+        draggableItemsContainer.innerHTML = '';
+        dropzone.innerHTML = '<p>Arraste os passos para cá na ordem correta!</p>';
+
+        const items = [
+            { id: "passo1", text: "1. Pegar o copo" },
+            { id: "passo3", text: "3. Beber a água" },
+            { id: "passo2", text: "2. Encher o copo com água" },
+            { id: "passo4", text: "4. Colocar o copo na pia" }
+        ];
+
+        items.sort(() => Math.random() - 0.5);
+
+        items.forEach(item => {
+            const div = document.createElement('div');
+            div.classList.add('draggable');
+            div.textContent = item.text;
+            div.setAttribute('draggable', true);
+            div.id = item.id;
+            div.addEventListener('dragstart', dragStart);
+            draggableItemsContainer.appendChild(div);
+        });
+    }
+
+    function dragStart(e) {
+        draggedItem = e.target;
+    }
+
+    if (dropzone) {
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('dragover');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            if (draggedItem) {
+                const existingItem = dropzone.querySelector(`#${draggedItem.id}`);
+                if (!existingItem) {
+                    if (dropzone.firstChild && dropzone.firstChild.nodeType === Node.TEXT_NODE && dropzone.firstChild.textContent.includes("Arraste os passos")) {
+                        dropzone.innerHTML = '';
+                    }
+                    dropzone.appendChild(draggedItem);
+                    draggedItem = null;
+                }
+            }
+        });
+    }
+
+    if (checkChallengeBtn) {
+        checkChallengeBtn.addEventListener('click', () => {
+            if (!dropzone || !challengeFeedback) return;
+
+            const itemsInDropzone = Array.from(dropzone.querySelectorAll('.draggable')).map(item => item.id);
+
+            if (itemsInDropzone.length !== correctOrder.length) {
+                challengeFeedback.textContent = "Por favor, coloque todos os passos na área de resposta.";
+                challengeFeedback.className = 'feedback error';
+                return;
+            }
+
+            const isCorrect = JSON.stringify(itemsInDropzone) === JSON.stringify(correctOrder);
+
+            if (isCorrect) {
+                challengeFeedback.textContent = "Parabéns! Você ordenou corretamente!";
+                challengeFeedback.className = 'feedback success';
+                localStorage.setItem('challengeCompleted', 'true');
+                checkChallengeBtn.disabled = true;
+            } else {
+                challengeFeedback.textContent = "Ordem incorreta. Tente novamente!";
+                challengeFeedback.className = 'feedback error';
+            }
+        });
+    }
+
     const nomeSalvo = localStorage.getItem('nomeUsuario');
-    if (!nomeSalvo) {
-        // Se não há nome, garante que a tela de boas-vindas seja mostrada
-        if (topbar) topbar.style.display = 'none';
-        if (secaoBoasVindas) secaoBoasVindas.style.display = 'flex';
-        if (telaCarregamento) telaCarregamento.style.display = 'none';
-        if (headerPrincipal) headerPrincipal.style.display = 'none';
-        if (mainDashboard) mainDashboard.style.display = 'none';
-        if (footerPrincipal) footerPrincipal.style.display = 'none';
-        if (modalParabens) modalParabens.style.display = 'none';
+    if (nomeSalvo) {
+        if (telaCarregamento) telaCarregamento.style.display = 'flex';
+        loadLessons().then(() => {
+            showDashboard();
+        }).catch(error => {
+            console.error("Erro ao carregar lições na inicialização:", error);
+            if (telaCarregamento) {
+                telaCarregamento.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar. Tente recarregar.</p>';
+            }
+            showModal("Erro ao carregar os dados. Tente recarregar a página.");
+        });
     } else {
-        // Se tem nome, o usuário já passou pela tela de boas-vindas.
-        // Mostra o dashboard diretamente.
-        if (topbar) topbar.style.display = 'flex'; // Mostra a topbar
-        if (secaoBoasVindas) secaoBoasVindas.style.display = 'none';
-        if (telaCarregamento) telaCarregamento.style.display = 'none';
-        if (headerPrincipal) headerPrincipal.style.display = 'block';
-        if (mainDashboard) mainDashboard.style.display = 'block';
-        if (footerPrincipal) footerPrincipal.style.display = 'block';
-        if (modalParabens) modalParabens.style.display = 'none';
-        carregarDadosUsuario();
-        atualizarProgresso();
-        verificarConclusaoTotal();
+        if (secaoBoasVindas) secaoBoasVindas.style.display = 'flex';
     }
-
 });

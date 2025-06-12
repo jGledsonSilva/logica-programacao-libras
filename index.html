@@ -9,95 +9,110 @@
 </head>
 
 <body>
-    <div id="topbar" style="display: none;">
-        <span id="topbarNomeUsuario"></span>
-        <div id="topbar-botoes">
-            <button id="btnReiniciar">Reiniciar</button>
-            <button id="btnSair">Sair</button>
-        </div>
-    </div>
-
     <section id="boas-vindas">
-        <h2>Bem-vindo(a)!</h2>
-        <p>Qual é o seu nome?</p>
-        <input type="text" id="inputNome" placeholder="Digite seu nome">
-        <button id="btnIniciarCurso">Iniciar</button>
+        <div class="logo-boas-vindas">
+            <img src="logo.png" alt="Logo Código em Sinais">
+        </div>
+        <div class="form-boas-vindas">
+            <p>Qual é o seu nome?</p>
+            <input type="text" id="inputNome" placeholder="">
+            <button id="btnIniciarCurso">Continuar</button>
+        </div>
     </section>
 
     <section id="tela-carregamento" style="display: none;">
         <h2>Carregando...</h2>
         <p>Preparando seu dashboard!</p>
-        <!-- Você pode adicionar um GIF de carregamento aqui -->
     </section>
 
-    <header id="header-principal" style="display: none;">
-        <h1>Dashboard de Aprendizagem: Decisões Lógicas</h1>
-    </header>
     <main id="main-dashboard" style="display: none;">
-        <section id="dashboard-progresso">
-            <h2>Meu Progresso</h2>
-            <div class="barra-progresso-container">
-                <div class="barra-progresso-valor" id="progressoValor">0%</div>
-                <div class="barra-progresso-visual">
-                    <div id="progressoAtual" style="width: 0%;"></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="conteudo-principal">
-            <div class="personagem-guia">
-                <!-- Imagem do personagem/guia -->
-                <p id="mensagemBoasVindasUsuario">"Olá! Sou o [Nome], pronto para mais aprendizado?"</p>
+        <div class="dashboard-novo-layout">
+            <div class="dashboard-coluna-esquerda">
             </div>
 
-            <div class="caixas-conteudo">
-                <div class="caixa" id="caixaIntroducao">
-                    <h3>Revisitar Conceito SE...ENTÃO...</h3>
-                    <p>Entenda o "SE... ENTÃO..." com explicações e GIFs em Libras.</p>
-                    <button class="btnCaixa" data-href="#secao-conceito-original">Ver Conceito</button>
+            <div class="dashboard-area-central">
+                <div class="dashboard-saudacao">
+                    <img src="boasvindas.png" alt="Logo boas-vindas">
+                    <span id="dashboardNomeUsuario"></span>
                 </div>
-                <div class="caixa" id="caixaExemploCondicional">
-                    <h3>Exemplo: SE...ENTÃO...</h3>
-                    <p>Veja o "SE... ENTÃO..." em ação com o exemplo da maçã.</p>
-                    <button id="btnExemploCondicional">Ver Exemplo</button>
+
+                <div class="dashboard-progresso-container">
+                    <div id="dashboardProgressoValor" class="dashboard-progresso-texto">0%</div>
+                    <div class="dashboard-progresso-barra-fundo">
+                        <div id="dashboardProgressoAtual" class="dashboard-progresso-barra-preenchimento"
+                            style="width: 0%;"></div>
+                    </div>
                 </div>
-                <div class="caixa" id="caixaDesafioCondicional">
-                    <h3>Desafio: SE...ENTÃO...</h3>
-                    <p>Encare o desafio do semáforo e tome a decisão certa!</p>
-                    <button id="btnDesafioCondicional">Iniciar Desafio</button>
-                </div>
-                <div class="caixa" id="caixaLoops">
-                    <h3>Aprender Loops (Repetições)</h3>
-                    <p>Descubra como repetir ações com os loops!</p>
-                    <button id="btnConceitoLoops">Ver Conceito de Loops</button>
+
+                <div class="dashboard-controles">
+                    <button id="btnDashboardReiniciar" title="Reiniciar Progresso">
+                        🔄
+                    </button>
+                    <button id="btnDashboardSair" title="Sair e Limpar Dados">
+                        🚪
+                    </button>
                 </div>
             </div>
-        </section>
 
-        <!-- Seção do conceito original, pode ser oculta/mostrada ou estar em outra página -->
-        <section id="secao-conceito-original" style="display: none;">
-            <h2>Entendendo SE... ENTÃO...</h2>
-            <div class="libras-gifs">
-                <figure>
-                    <img src="path/to/sinal_se.gif" alt="Sinal de SE em Libras">
-                    <figcaption>SE</figcaption>
-                </figure>
-                <figure>
-                    <img src="path/to/sinal_entao.gif" alt="Sinal de ENTÃO em Libras">
-                    <figcaption>ENTÃO</figcaption>
-                </figure>
+            <div class="dashboard-coluna-direita">
+                <div id="vlibras-placeholder">
+                    VLIBRAS
+                </div>
             </div>
-            <p>Na programação e na vida, usamos 'SE... ENTÃO...' para escolher caminhos. SE (uma condição é verdadeira)
-                ENTÃO (uma ação acontece).</p>
-            <img src="path/to/fluxograma_decisao.png" alt="Fluxograma básico de decisão" class="visual-explicacao">
-        </section>
-
+        </div>
     </main>
-    <footer id="footer-principal" style="display: none;">
-        <p>&copy; 2025 Seu Nome/Organização</p>
-    </footer>
 
-    <!-- Modal de Parabéns -->
+    <section id="lesson-view" style="display: none;">
+        <div class="lesson-view-header">
+            <div class="lesson-view-topic-number-container">
+                <span id="lessonViewTopicNumber">Nº</span>
+            </div>
+            <div class="lesson-view-topic-title-container">
+                <h2 id="lessonViewTopicTitle">TÓPICO</h2>
+            </div>
+        </div>
+        <div class="lesson-view-content">
+            <div class="lesson-card explanation-card">
+                <h3>Explicação</h3>
+                <div id="lessonViewExplanationText" class="card-text-content">
+                    Texto da explicação da lição virá aqui...
+                </div>
+                <button class="card-action-button" aria-label="Ver explicação em vídeo">
+                    <img src="placeholder_play_icon.png" alt="Play">
+                </button>
+            </div>
+            <div class="lesson-card practical-exercise-card">
+                <h3>Exercício Prático</h3>
+                <div id="lessonViewExerciseText" class="card-text-content">
+                    Descrição do exercício prático virá aqui...
+                </div>
+
+                <div class="activity-section">
+                    <h4>Atividade: Qual é a correta?</h4>
+                    <p id="lessonViewActivityQuestion" class="activity-question-text">Pergunta da atividade virá aqui...
+                    </p>
+                    <div id="lessonViewActivityOptions" class="activity-options-container">
+                    </div>
+                    <button id="btnVerificarAtividade" class="button-verificar-atividade">Verificar Resposta</button>
+                    <div id="lessonViewActivityFeedback" class="activity-feedback-text"></div>
+                </div>
+                <button class="card-action-button" aria-label="Ver exercício em vídeo">
+                    <img src="placeholder_play_icon.png" alt="Play">
+                </button>
+            </div>
+            <div class="lesson-card vlibras-card">
+                <h3>VLibras</h3>
+                <div id="lessonViewVlibrasContent" class="card-vlibras-content">
+                    <p>Conteúdo VLibras</p>
+                </div>
+            </div>
+        </div>
+        <button id="btnVoltarDashboard" class="button-voltar">Voltar ao Dashboard</button>
+    </section>
+
+    <section id="challenge-view" style="display: none;">
+    </section>
+
     <div id="modalParabens" class="modal" style="display: none;">
         <div class="modal-conteudo">
             <span class="modal-fechar" id="fecharModalParabens">&times;</span>
@@ -107,7 +122,17 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <div id="modalOverlay" class="modal-overlay" style="display: none;">
+        <div id="modalDialog" class="modal-dialog">
+            <p id="modalMessage" class="modal-message"></p>
+            <div id="modalActions" class="modal-actions">
+                <button id="modalBtnConfirm" class="modal-button">OK</button>
+                <button id="modalBtnCancel" class="modal-button" style="display: none;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
 </body>
 
 </html>

@@ -1,11 +1,14 @@
-/* Estilização básica para o corpo e elementos comuns */
+@import url('https://fonts.cdnfonts.com/css/bernoru');
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
     color: #333;
     line-height: 1.6;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -17,15 +20,6 @@ header {
 
 header h1 {
     margin: 0;
-}
-
-main {
-    padding: 20px;
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 section {
@@ -68,7 +62,6 @@ h2 {
 
 .libras-gifs img {
     max-width: 100px;
-    /* Ajuste conforme necessário */
     height: auto;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -83,7 +76,6 @@ h2 {
 
 .inline-image {
     max-width: 50px;
-    /* Para imagens menores no texto */
     vertical-align: middle;
     margin-left: 5px;
     margin-right: 5px;
@@ -105,7 +97,6 @@ button:hover {
     background-color: #4cae4c;
 }
 
-/* Estilos para a tela de Boas-Vindas e Carregamento */
 #boas-vindas,
 #tela-carregamento {
     display: flex;
@@ -113,32 +104,92 @@ button:hover {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    /* Ocupa a tela inteira */
     text-align: center;
     padding: 20px;
 }
 
+#boas-vindas {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    height: 100vh;
+    background-color: #4CAF50;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.logo-boas-vindas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-boas-vindas img {
+    max-width: 750px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.form-boas-vindas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+}
+
+.form-boas-vindas p {
+    font-size: 45px;
+    margin-bottom: 15px;
+    color: #000;
+    font-family: 'bernoru', sans-serif;
+    font-weight: bold;
+}
+
 #boas-vindas input[type="text"] {
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 80%;
-    max-width: 300px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 25px;
+    width: 450px;
+    max-width: 100%;
+    font-size: 1em;
+    background-color: #FFF0C1;
+    text-align: center;
 }
 
-#boas-vindas button,
-#tela-carregamento button {
-    padding: 10px 20px;
-    font-size: 16px;
+#boas-vindas button#btnIniciarCurso {
+    padding: 10px 30px;
+    font-size: 1.2em;
+    background-color: #FFD966;
+    color: #000;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-/* Ocultar elementos inicialmente */
+#boas-vindas button#btnIniciarCurso:hover {
+    background-color: #f0c24a;
+}
+
 .hidden {
     display: none !important;
 }
 
-/* Estilos para o Dashboard */
+main#main-dashboard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    background-color: #E0E0E0;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
 #dashboard-progresso {
     background-color: #e9ecef;
     padding: 20px;
@@ -158,28 +209,21 @@ button:hover {
     border-radius: 5px;
     margin-top: 10px;
     position: relative;
-    /* Para posicionar o texto do progresso */
     height: 30px;
-    /* Altura da barra */
 }
 
 .barra-progresso-visual {
     height: 100%;
     background-color: #4caf50;
-    /* Verde para progresso */
     border-radius: 5px;
     overflow: hidden;
-    /* Garante que a barra interna não ultrapasse */
 }
 
 #progressoAtual {
     height: 100%;
     background-color: #5cb85c;
-    /* Cor da barra de progresso */
     width: 0%;
-    /* Inicialmente 0% */
     transition: width 0.5s ease-in-out;
-    /* Animação suave */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -192,20 +236,15 @@ button:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     color: #fff;
-    /* Cor do texto dentro da barra de progresso */
     font-weight: bold;
     text-shadow: 1px 1px 1px #333;
-    /* Sombra para melhor legibilidade */
 }
-
 
 .caixas-conteudo {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    /* Permite que as caixas quebrem para a próxima linha em telas menores */
     gap: 20px;
-    /* Espaço entre as caixas */
     margin-top: 20px;
 }
 
@@ -215,7 +254,6 @@ button:hover {
     border-radius: 8px;
     padding: 20px;
     width: calc(33.333% - 20px);
-    /* Aproximadamente um terço da largura, considerando o gap */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -229,14 +267,12 @@ button:hover {
 .caixa h3 {
     margin-top: 0;
     color: #007bff;
-    /* Azul para os títulos das caixas */
 }
 
 .caixa p {
     font-size: 0.9em;
     color: #555;
     min-height: 60px;
-    /* Para alinhar os botões mesmo com textos de tamanhos diferentes */
 }
 
 .btnCaixa {
@@ -255,7 +291,6 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Ajustes para secao-conceito-original se usada na mesma página */
 #secao-conceito-original {
     margin-top: 30px;
     padding: 20px;
@@ -263,7 +298,6 @@ button:hover {
     border: 1px solid #eee;
     border-radius: 8px;
 }
-
 
 .opcoes-desafio button img {
     display: block;
@@ -293,27 +327,20 @@ footer {
     background-color: #333;
     color: #fff;
     position: relative;
-    /* Pode precisar de ajuste dependendo do conteúdo */
     bottom: 0;
     width: 100%;
 }
 
-/* Estilos para o Modal de Parabéns */
 .modal {
     position: fixed;
-    /* Fica fixo na tela */
     z-index: 1000;
-    /* Fica sobre outros elementos */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    /* Permite scroll se o conteúdo for maior */
     background-color: rgba(0, 0, 0, 0.6);
-    /* Fundo escurecido */
     display: flex;
-    /* Para centralizar o conteúdo do modal */
     align-items: center;
     justify-content: center;
 }
@@ -347,26 +374,19 @@ footer {
     cursor: pointer;
 }
 
-/* Estilos para a Topbar */
 #topbar {
     background-color: #2c3e50;
-    /* Cor de fundo da topbar */
     color: #ecf0f1;
-    /* Cor do texto */
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
-    /* Alinha nome à esquerda e botões à direita */
     align-items: center;
     position: fixed;
-    /* Fixa no topo */
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1001;
-    /* Garante que fique acima de outros elementos, exceto modal talvez */
     box-sizing: border-box;
-    /* Para que padding não aumente a largura total */
 }
 
 #topbarNomeUsuario {
@@ -375,7 +395,6 @@ footer {
 
 #topbar-botoes button {
     background-color: #3498db;
-    /* Cor dos botões na topbar */
     color: white;
     padding: 8px 15px;
     margin-left: 10px;
@@ -389,8 +408,736 @@ footer {
     background-color: #2980b9;
 }
 
-/* Ajuste no main para não ficar embaixo da topbar */
 main#main-dashboard {
-    margin-top: 60px;
-    /* Altura aproximada da topbar + um pouco de espaço */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #4CAF50;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 0;
+}
+
+.dashboard-novo-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    height: 100vh;
+    box-sizing: border-box;
+    background-color: #4CAF50;
+}
+
+.dashboard-coluna-esquerda,
+.dashboard-coluna-direita {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 20%;
+}
+
+.dashboard-area-central {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 55%;
+    height: 100%;
+}
+
+.dashboard-saudacao {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#dashboardNomeUsuario {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(6.4deg);
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 2.5em;
+    color: #FF5733;
+    width: 100%;
+    text-align: center;
+    -webkit-text-stroke: 1px black;
+    text-stroke: 1px black;
+    paint-order: stroke fill;
+}
+
+.dashboard-saudacao img {
+    max-width: 400px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.dashboard-visualizacao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background-color: #68B969;
+    min-height: 100vh;
+    box-sizing: border-box;
+    font-family: 'bernoru', sans-serif;
+}
+
+.dashboard-visualizacao h1 {
+    font-size: 2.5em;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.dashboard-visualizacao p {
+    font-size: 1.2em;
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+.dashboard-visualizacao img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.dashboard-visualizacao button {
+    background-color: #FFD700;
+    color: #000;
+    padding: 10px 30px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.dashboard-visualizacao button:hover {
+    background-color: #f0c24a;
+}
+
+.dashboard-lesson-card {
+    background-color: #FEFBEA;
+    border: 3px solid #000000;
+    border-radius: 8px;
+    padding: 0;
+    display: flex;
+    align-items: stretch;
+    min-width: 220px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-lesson-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-lesson-card .lesson-number {
+    color: #000000;
+    padding: 15px;
+    font-weight: bold;
+    font-size: 1.5em;
+    border-right: 3px solid #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+}
+
+.dashboard-lesson-card[data-lesson-id*="1"] .lesson-number {
+    background-color: #74D4F9;
+}
+
+.dashboard-lesson-card[data-lesson-id*="2"] .lesson-number {
+    background-color: #FFA7D6;
+}
+
+.dashboard-lesson-card[data-lesson-id*="3"] .lesson-number {
+    background-color: #C5A7FF;
+}
+
+.dashboard-lesson-card[data-lesson-id*="4"] .lesson-number {
+    background-color: #A7C5FF;
+}
+
+.dashboard-lesson-card.desafio .lesson-number,
+.dashboard-lesson-card[data-lesson-id*="5"] .lesson-number {
+    background-color: #FFA7D6;
+}
+
+.dashboard-lesson-card.concluido .lesson-number {
+    background-color: #90EE90;
+}
+
+.dashboard-lesson-card .lesson-title-text {
+    font-weight: bold;
+    color: #000000;
+    padding: 15px 20px;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.dashboard-saudacao {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.saudacao-ola {
+    background-color: #FEFBEA;
+    color: #E55353;
+    padding: 10px 30px;
+    border-radius: 25px;
+    font-size: 2em;
+    font-weight: bold;
+    transform: rotate(-4deg);
+    display: inline-block;
+    border: 3px solid #000000;
+    margin-bottom: 10px;
+}
+
+.saudacao-nome {
+    color: #E55353;
+    font-size: 3.5em;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 3px 3px #000000;
+}
+
+.saudacao-vamocomecar {
+    background-color: #FFD15C;
+    color: #E55353;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-size: 2.2em;
+    font-weight: bold;
+    transform: rotate(3deg);
+    display: inline-block;
+    border: 3px solid #000000;
+    margin-top: 10px;
+}
+
+.dashboard-progresso-container {
+    background-color: #FEFBEA;
+    border-radius: 25px;
+    padding: 12px 20px;
+    width: 320px;
+    text-align: center;
+    border: 3px solid #000000;
+}
+
+.dashboard-progresso-label {
+    color: #000000;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 8px;
+}
+
+.dashboard-progresso-barra-fundo {
+    background-color: #DCDCDC;
+    border-radius: 15px;
+    height: 22px;
+    overflow: hidden;
+    border: 2px solid #000000;
+}
+
+.dashboard-progresso-barra-preenchimento {
+    background-color: #76C7C0;
+    height: 100%;
+    border-radius: 13px;
+    transition: width 0.5s ease-in-out;
+}
+
+.dashboard-progresso-texto {
+    color: #000000;
+    font-weight: bold;
+    font-size: 1em;
+    margin-bottom: 5px;
+}
+
+.dashboard-controles {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.dashboard-controles button {
+    background-color: #FEFBEA;
+    color: #000000;
+    border: 3px solid #000000;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.dashboard-controles button:hover {
+    background-color: #f0f0d8;
+}
+
+#vlibras-placeholder {
+    background-color: #FEFBEA;
+    border: 3px solid #000000;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lesson-view-header {
+    display: flex;
+    align-items: center;
+    background-color: #4CAF50;
+    padding: 15px 30px;
+    border-bottom: 3px solid #000;
+}
+
+.lesson-view-topic-number-container {
+    background-color: #74D4F9;
+    color: #000;
+    font-weight: bold;
+    font-size: 2em;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 3px solid #000;
+    margin-right: 20px;
+}
+
+.lesson-view-topic-title-container h2 {
+    color: #FFF;
+    font-family: 'bernoru', sans-serif;
+    font-size: 2.8em;
+    margin: 0;
+    text-shadow: 2px 2px 2px #000;
+}
+
+.lesson-view-content {
+    display: flex;
+    justify-content: space-around;
+    padding: 30px;
+    gap: 25px;
+    background-color: #E0E0E0;
+    flex-grow: 1;
+}
+
+.lesson-card {
+    background-color: #FEFBEA;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 20px;
+    flex-basis: 30%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-card h3 {
+    font-family: 'bernoru', sans-serif;
+    font-size: 1.8em;
+    color: #000;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+}
+
+.card-text-content {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.card-action-button {
+    background-color: #FFD15C;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    align-self: center;
+    margin-top: auto;
+}
+
+.card-action-button img {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
+
+.card-action-button:hover {
+    background-color: #f0c24a;
+}
+
+.card-vlibras-content {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.button-voltar {
+    background-color: #E55353;
+    color: #FFF;
+    font-family: 'bernoru', sans-serif;
+    font-size: 1.5em;
+    padding: 12px 30px;
+    border: 3px solid #000;
+    border-radius: 8px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+}
+
+.button-voltar:hover {
+    background-color: #c74242;
+}
+
+#lesson-view {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #E0E0E0;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.modal-dialog {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+    border: 3px solid #000;
+}
+
+.modal-message {
+    font-size: 1.3em;
+    color: #333;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    border: 2px solid #000;
+    cursor: pointer;
+    font-weight: bold;
+    min-width: 100px;
+}
+
+#modalBtnConfirm {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#modalBtnConfirm:hover {
+    background-color: #45a049;
+}
+
+#modalBtnCancel {
+    background-color: #f44336;
+    color: white;
+}
+
+#modalBtnCancel:hover {
+    background-color: #da190b;
+}
+
+.activity-section {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px dashed #ccc;
+}
+
+.activity-section h4 {
+    font-family: 'bernoru', sans-serif;
+    font-size: 1.5em;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.activity-question-text {
+    font-size: 1.1em;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.activity-options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.activity-option-button {
+    background-color: #FFF0C1;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 8px;
+    padding: 12px 15px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s ease;
+}
+
+.activity-option-button:hover {
+    background-color: #ffe8a8;
+}
+
+.activity-option-button.selected {
+    background-color: #FFD15C;
+    font-weight: bold;
+}
+
+.button-verificar-atividade {
+    background-color: #5cb85c;
+    color: white;
+    border: 2px solid #000;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto 10px auto;
+}
+
+.button-verificar-atividade:hover {
+    background-color: #4cae4c;
+}
+
+.activity-feedback-text {
+    font-size: 1em;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    min-height: 20px;
+}
+
+.activity-feedback-text.correct {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.activity-feedback-text.incorrect {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.dashboard-lesson-card.desafio {
+    background-color: #FFD15C;
+}
+
+.dashboard-lesson-card.desafio .lesson-number {
+    background-color: #E55353;
+    color: #FFF;
+}
+
+.dashboard-lesson-card.desafio .lesson-title-text {
+    color: #000;
+}
+
+.dashboard-lesson-card.bloqueado {
+    background-color: #E0E0E0;
+    border-color: #A0A0A0;
+    cursor: not-allowed;
+}
+
+.dashboard-lesson-card.bloqueado .lesson-number {
+    background-color: #B0B0B0;
+    color: #707070;
+    border-color: #A0A0A0;
+}
+
+.dashboard-lesson-card.bloqueado .lesson-title-text {
+    color: #707070;
+}
+
+.dashboard-lesson-card.concluido {
+    background-color: #D4EFDF;
+    border-color: #28A745;
+}
+
+.dashboard-lesson-card.concluido .lesson-number {
+    background-color: #28A745;
+    color: #FFF;
+}
+
+.dashboard-lesson-card.concluido .lesson-title-text {
+    color: #1E7E34;
+}
+
+.lesson-view-header .lesson-view-topic-number-container.cor-algoritmos {
+    background-color: #74D4F9;
+}
+
+.lesson-view-header .lesson-view-topic-number-container.cor-sequencia {
+    background-color: #FFA7D6;
+}
+
+.lesson-view-header .lesson-view-topic-number-container.cor-condicionais {
+    background-color: #C5A7FF;
+}
+
+.lesson-view-header .lesson-view-topic-number-container.cor-repeticoes {
+    background-color: #A7C5FF;
+}
+
+.lesson-view-header .lesson-view-topic-number-container.cor-eventos {
+    background-color: #FFC085;
+}
+
+.lesson-view-header .lesson-view-topic-number-container.cor-desafio_final {
+    background-color: #E55353;
+    color: #FFF;
+}
+
+.lesson-card.explanation-card {
+    border-left: 5px solid #74D4F9;
+}
+
+.lesson-card.practical-exercise-card {
+    border-left: 5px solid #FFA7D6;
+}
+
+.lesson-card.vlibras-card {
+    border-left: 5px solid #C5A7FF;
+}
+
+.lesson-card.explanation-card h3 {
+    color: #5DA9C5;
+}
+
+.lesson-card.practical-exercise-card h3 {
+    color: #D98CB3;
+}
+
+.lesson-card.vlibras-card h3 {
+    color: #A182D9;
+}
+
+.lesson-card.explanation-card .card-action-button {
+    background-color: #74D4F9;
+}
+
+.lesson-card.practical-exercise-card .card-action-button {
+    background-color: #FFA7D6;
+}
+
+.lesson-card.explanation-card .card-action-button:hover {
+    background-color: #6290a7;
+}
+
+.lesson-card.practical-exercise-card .card-action-button:hover {
+    background-color: #d392b0;
+}
+
+.button-marcar-concluido {
+    background-color: #28a745;
+    color: white;
+    border: 2px solid #000;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    cursor: pointer;
+    display: block;
+    margin: 15px auto 5px auto;
+}
+
+.button-marcar-concluido:hover {
+    background-color: #218838;
+}
+
+.button-marcar-concluido.concluido {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.lesson-card.practical-exercise-card .activity-section {
+    border-top: 2px dashed #D98CB3;
+}
+
+.lesson-card.practical-exercise-card .activity-section h4 {
+    color: #D98CB3;
+}
+
+.lesson-card.practical-exercise-card .activity-option-button.selected {
+    background-color: #FFA7D6;
+    border-color: #D98CB3;
+}
+
+.lesson-card.practical-exercise-card .button-verificar-atividade {
+    background-color: #FFA7D6;
+    border-color: #D98CB3;
+    color: #000;
+}
+
+.lesson-card.practical-exercise-card .button-verificar-atividade:hover {
+    background-color: #d392b0;
+}
+
+#challengeDropArea {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    min-height: 100px;
+}
+
+.draggable {
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    cursor: grab;
+}
+
+#challengeFeedback {
+    margin-top: 10px;
+    font-weight: bold;
 }
