@@ -1,5 +1,134 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let lessons = {};
+    // Conteúdo do lessons.json embutido diretamente
+    const lessonsData = [
+        {
+            "id": "algoritmos",
+            "title": "O que são Algoritmos?",
+            "number": 1,
+            "video_path": "tp1.mp4",
+            "content": [
+                "Um algoritmo é uma sequência de passos para realizar uma tarefa ou resolver um problema.",
+                "Pense em uma receita de bolo: ela é um algoritmo!",
+                "No computador, escrevemos algoritmos para que ele execute tarefas."
+            ],
+            "activity": {
+                "question": "Você quer fazer um sanduíche de queijo. Qual é o algoritmo (sequência de passos) correto?",
+                "options": [
+                    "1. Pegar o queijo -> Pegar o pão -> Colocar o queijo no pão -> Fechar o pão",
+                    "2. Pegar o queijo -> Fechar o pão -> Colocar o queijo no pão -> Pegar o pão",
+                    "3. Fechar o pão -> Pegar o pão -> Pegar o queijo -> Colocar o queijo no pão"
+                ],
+                "correctAnswer": 0
+            },
+            "vlibras_content": "Conteúdo VLibras para Algoritmos"
+        },
+        {
+            "id": "sequencia",
+            "title": "Comandos e Sequências",
+            "number": 2,
+            "video_path": "tp2.mp4",
+            "content": [
+                "Imagine que você está dando instruções para um robô. Cada instrução clara e direta é um <strong>comando</strong>.",
+                "Uma <strong>sequência</strong> é a ordem em que esses comandos são executados. A ordem é crucial!",
+                "<strong>Exemplo em Pseudocódigo:</strong>",
+                "<pre style='background-color:#2d2d2d; color:#f8f8f2; padding: 15px; border-radius: 5px; text-align: left;'><code>INICIO\n    Robo.AndeParaFrente(2 passos)\n    Robo.VireADireita()\n    Robo.PegueOObjeto(Chave)\nFIM</code></pre>"
+            ],
+            "activity": {
+                "question": "Qual é a sequência de comandos correta para um personagem pegar uma maçã na árvore e depois comê-la?",
+                "options": [
+                    "1. AndarAtéAÁrvore() -> ComerMaçã() -> PegarMaçã()",
+                    "2. PegarMaçã() -> AndarAtéAÁrvore() -> ComerMaçã()",
+                    "3. AndarAtéAÁrvore() -> PegarMaçã() -> ComerMaçã()"
+                ],
+                "correctAnswer": 2
+            },
+            "vlibras_content": "Conteúdo VLibras para Comandos e Sequências"
+        },
+        {
+            "id": "condicionais",
+            "title": "Condicionais (Se... Então...)",
+            "number": 3,
+            "video_path": "tp3.mp4",
+            "content": [
+                "Condicionais permitem que seu programa tome decisões.",
+                "<strong>Exemplo em Pseudocódigo:</strong>",
+                "<pre style='background-color:#2d2d2d; color:#f8f8f2; padding: 15px; border-radius: 5px; text-align: left;'><code>SE tempo == \"chuvoso\" ENTÃO\n    AssistaUmFilme()\nSENÃO\n    VáParaAPraia()\nFIM_SE</code></pre>"
+            ],
+            "activity": {
+                "question": "A nota de um aluno foi 6. Baseado no código, qual mensagem aparecerá?<br><pre style='background-color:#2d2d2d; color:#f8f8f2; padding: 10px; border-radius: 5px; text-align: left; font-size:0.9em;'>SE nota >= 7 ENTÃO\n  Mostre(\"Aprovado!\")\nSENÃO SE nota >= 5 ENTÃO\n  Mostre(\"Recuperação.\")\nSENÃO\n  Mostre(\"Reprovado.\")\nFIM_SE</pre>",
+                "options": [
+                    "Aprovado!",
+                    "Recuperação.",
+                    "Reprovado."
+                ],
+                "correctAnswer": 1
+            },
+            "vlibras_content": "Conteúdo VLibras para Condicionais"
+        },
+        {
+            "id": "repeticoes",
+            "title": "Repetições (Loops)",
+            "number": 4,
+            "video_path": "tp4.mp4",
+            "content": [
+                "Loops servem para repetir uma ação várias vezes sem ter que escrever o mesmo código de novo e de novo.",
+                "<strong>Exemplo com Contador (PARA):</strong>",
+                "<pre style='background-color:#2d2d2d; color:#f8f8f2; padding: 15px; border-radius: 5px; text-align: left;'><code>PARA i DE 1 ATÉ 3 FAÇA\n    ForjeUmaEspada()\nFIM_PARA</code></pre>"
+            ],
+            "activity": {
+                "question": "Você precisa que um personagem pule exatamente 5 vezes. Qual loop está correto?",
+                "options": [
+                    "ENQUANTO personagemNaoCansar FAÇA Pular()",
+                    "PARA i DE 1 ATÉ 5 FAÇA Pular()",
+                    "SE personagemPuderPular ENTÃO Pular()"
+                ],
+                "correctAnswer": 1
+            },
+            "vlibras_content": "Conteúdo VLibras para Repetições (Loops)"
+        },
+        {
+            "id": "eventos",
+            "title": "Eventos (Interação)",
+            "number": 5,
+            "video_path": "tp5.mp4",
+            "content": [
+                "Eventos são gatilhos, como clicar um botão ou pressionar uma tecla. O programa reage a essas ações.",
+                "<strong>Exemplo em Pseudocódigo:</strong>",
+                "<pre style='background-color:#2d2d2d; color:#f8f8f2; padding: 15px; border-radius: 5px; text-align: left;'><code>QUANDO TeclaEspaco FOR pressionada FAÇA\n    PulePersonagem()\nFIM_QUANDO</code></pre>"
+            ],
+            "activity": {
+                "question": "Em um jogo, o que deve acontecer QUANDO o personagem colidir com uma moeda?",
+                "options": [
+                    "Aumentar a pontuação.",
+                    "Perder uma vida.",
+                    "O jogo terminar."
+                ],
+                "correctAnswer": 0
+            },
+            "vlibras_content": "Conteúdo VLibras para Eventos"
+        },
+        {
+            "id": "desafio_final",
+            "title": "Desafio Final: Crie seu Jogo!",
+            "number": 6,
+            "video_path": "tp6.mp4",
+            "content": [
+                "É hora de juntar tudo! Use os conceitos de sequências, loops, condicionais e eventos para montar a lógica de um mini-jogo."
+            ],
+            "activity": {
+                "question": "Um dragão dorme. SE ele ouvir um barulho, ele acorda. QUANDO o jogador entrar na caverna, o jogador faz barulho. O que acontece?",
+                "options": [
+                    "O dragão continua dormindo.",
+                    "O dragão acorda.",
+                    "O jogador pega o tesouro sem problemas."
+                ],
+                "correctAnswer": 1
+            },
+            "vlibras_content": "Conteúdo VLibras para Desafio Final"
+        }
+    ];
+
+    let lessons = {}; // Mantém a estrutura de objeto para as lições
     let currentLessonId = null;
     let selectedAnswerIndex = null; // NOVO: Guarda a resposta selecionada pelo usuário
 
@@ -46,20 +175,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- FUNÇÕES PRINCIPAIS ---
 
-    async function loadLessons() {
-        try {
-            const response = await fetch('lessons.json');
-            lessons = await response.json();
-            // Transforma o array em um objeto para acesso fácil por ID
-            lessons = lessons.reduce((acc, lesson) => {
-                acc[lesson.id] = lesson;
-                return acc;
-            }, {});
-            updateDashboard();
-        } catch (error) {
-            console.error("Erro ao carregar as lições:", error);
-            showModal("Erro ao carregar o conteúdo das lições. Tente recarregar a página.");
-        }
+    // REMOVIDA: async function loadLessons() { ... }
+
+    function initializeLessons() {
+        // Transforma o array lessonsData em um objeto para acesso fácil por ID
+        lessons = lessonsData.reduce((acc, lesson) => {
+            acc[lesson.id] = lesson;
+            return acc;
+        }, {});
+        updateDashboard(); // Chama updateDashboard após as lições serem processadas
     }
 
     function showModal(message, showCancelButton = false, onConfirm = null) {
@@ -265,12 +389,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 localStorage.setItem('nomeUsuario', nome);
                 secaoBoasVindas.style.display = 'none';
                 telaCarregamento.style.display = 'flex';
-                loadLessons().then(() => {
-                    setTimeout(() => {
-                        telaCarregamento.style.display = 'none';
-                        showDashboard();
-                    }, 500);
-                });
+                // Não chama mais loadLessons().then(...)
+                // A inicialização das lições e do dashboard é síncrona agora
+                initializeLessons();
+                setTimeout(() => {
+                    telaCarregamento.style.display = 'none';
+                    showDashboard(); // showDashboard já chama updateDashboard se necessário
+                }, 500);
             } else {
                 showModal("Por favor, digite seu nome para continuar.");
             }
@@ -364,13 +489,22 @@ document.addEventListener('DOMContentLoaded', function () {
     if (nomeSalvo) {
         inputNome.value = nomeSalvo;
         telaCarregamento.style.display = 'flex';
-        loadLessons().then(() => {
-            setTimeout(() => {
-                telaCarregamento.style.display = 'none';
-                showDashboard();
-            }, 500);
-        });
+        // Não chama mais loadLessons().then(...)
+        initializeLessons();
+        setTimeout(() => {
+            telaCarregamento.style.display = 'none';
+            showDashboard();
+        }, 500);
     } else {
         secaoBoasVindas.style.display = 'flex';
+        // Se não houver nome salvo, as lições ainda precisam ser preparadas para quando o usuário inserir o nome
+        // No entanto, o updateDashboard só deve popular os cards quando o nome for inserido.
+        // A estrutura de `lessons` será preenchida por initializeLessons() quando o usuário clicar em "Continuar"
+        // ou se já houver um nome salvo.
+        // Para garantir que `lessons` esteja pronto mesmo que o usuário não tenha nome salvo ainda:
+        lessons = lessonsData.reduce((acc, lesson) => {
+            acc[lesson.id] = lesson;
+            return acc;
+        }, {});
     }
 });
