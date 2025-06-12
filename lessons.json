@@ -8,7 +8,15 @@
             "Pense em uma receita de bolo: ela é um algoritmo!",
             "No computador, escrevemos algoritmos para que ele execute tarefas."
         ],
-        "exercise": "Escreva os passos (algoritmo) para fazer um sanduíche.",
+        "activity": {
+            "question": "Você quer fazer um sanduíche de queijo. Qual é o algoritmo (sequência de passos) correto?",
+            "options": [
+                "1. Pegar o queijo -> Pegar o pão -> Colocar o queijo no pão -> Fechar o pão",
+                "2. Pegar o queijo -> Fechar o pão -> Colocar o queijo no pão -> Pegar o pão",
+                "3. Fechar o pão -> Pegar o pão -> Pegar o queijo -> Colocar o queijo no pão"
+            ],
+            "correctAnswer": 0
+        },
         "vlibras_content": "Conteúdo VLibras para Algoritmos"
     },
     {
@@ -16,26 +24,40 @@
         "title": "Comandos e Sequências",
         "number": 2,
         "content": [
-            "Imagine que você está dando instruções para um robô. Cada instrução clara e direta é um **comando**.",
-            "Por exemplo: 'Ande para frente', 'Vire à esquerda', 'Pegue o objeto'.",
-            "Uma **sequência** é simplesmente a ordem em que esses comandos são executados. O robô fará uma coisa depois da outra, na ordem em que você disser.",
-            "**Exemplo em Pseudocódigo:**\n```\nINICIO\n    Robo.AndeParaFrente(2 passos)\n    Robo.VireADireita()\n    Robo.AndeParaFrente(3 passos)\n    Robo.PegueOObjeto(Chave)\nFIM\n```",
-            "Nesta sequência, o robô primeiro anda, depois vira, anda novamente e por fim pega a chave. A ordem é crucial!"
+            "Imagine que você está dando instruções para um robô. Cada instrução clara e direta é um <strong>comando</strong>.",
+            "Uma <strong>sequência</strong> é a ordem em que esses comandos são executados. A ordem é crucial!",
+            "<strong>Exemplo em Pseudocódigo:</strong>",
+            "<pre style='background-color:#2d2d2d; color:#f8f8f2; padding: 15px; border-radius: 5px; text-align: left;'><code>INICIO\n    Robo.AndeParaFrente(2 passos)\n    Robo.VireADireita()\n    Robo.PegueOObjeto(Chave)\nFIM</code></pre>"
         ],
-        "exercise": "Escreva uma sequência de comandos em pseudocódigo para um personagem em um jogo pegar uma maçã em uma árvore e depois comê-la. Pense nos passos lógicos.",
+        "activity": {
+            "question": "Qual é a sequência de comandos correta para um personagem pegar uma maçã na árvore e depois comê-la?",
+            "options": [
+                "1. AndarAtéAÁrvore() -> ComerMaçã() -> PegarMaçã()",
+                "2. PegarMaçã() -> AndarAtéAÁrvore() -> ComerMaçã()",
+                "3. AndarAtéAÁrvore() -> PegarMaçã() -> ComerMaçã()"
+            ],
+            "correctAnswer": 2
+        },
         "vlibras_content": "Conteúdo VLibras para Comandos e Sequências"
     },
     {
         "id": "condicionais",
-        "title": "Condicionais (Se... Então... Senão...)",
+        "title": "Condicionais (Se... Então...)",
         "number": 3,
         "content": [
-            "Condicionais permitem que seu programa tome decisões. É como dizer: 'SE algo for verdade, FAÇA ISSO. SENÃO, FAÇA AQUILO'.",
-            "Usamos `SE` (IF), `ENTÃO` (THEN), `SENÃO` (ELSE) e `SENÃO SE` (ELSE IF).",
-            "**Exemplo em Pseudocódigo:**\n```\nSE tempo == \"ensolarado\" ENTÃO\n    VáParaAPraia()\nSENÃO SE tempo == \"chuvoso\" ENTÃO\n    AssistaUmFilme()\nSENÃO\n    LeiaUmLivro()\nFIM_SE\n```",
-            "O programa verificará o tempo e decidirá o que fazer."
+            "Condicionais permitem que seu programa tome decisões.",
+            "<strong>Exemplo em Pseudocódigo:</strong>",
+            "<pre style='background-color:#2d2d2d; color:#f8f8f2; padding: 15px; border-radius: 5px; text-align: left;'><code>SE tempo == \"chuvoso\" ENTÃO\n    AssistaUmFilme()\nSENÃO\n    VáParaAPraia()\nFIM_SE</code></pre>"
         ],
-        "exercise": "Escreva um pseudocódigo que verifique se um aluno foi aprovado. O aluno precisa de nota maior ou igual a 7 para ser aprovado. Se a nota for menor que 7 mas maior ou igual a 5, ele está de recuperação. Caso contrário, está reprovado.",
+        "activity": {
+            "question": "A nota de um aluno foi 6. Baseado no código, qual mensagem aparecerá?<br><pre style='background-color:#2d2d2d; color:#f8f8f2; padding: 10px; border-radius: 5px; text-align: left; font-size:0.9em;'>SE nota >= 7 ENTÃO\n  Mostre(\"Aprovado!\")\nSENÃO SE nota >= 5 ENTÃO\n  Mostre(\"Recuperação.\")\nSENÃO\n  Mostre(\"Reprovado.\")\nFIM_SE</pre>",
+            "options": [
+                "Aprovado!",
+                "Recuperação.",
+                "Reprovado."
+            ],
+            "correctAnswer": 1
+        },
         "vlibras_content": "Conteúdo VLibras para Condicionais"
     },
     {
@@ -43,14 +65,19 @@
         "title": "Repetições (Loops)",
         "number": 4,
         "content": [
-            "Em programação, muitas vezes precisamos repetir uma ação várias vezes. Imagine que você quer desenhar 5 quadrados. Em vez de escrever o código para desenhar um quadrado 5 vezes, podemos usar um loop!",
-            "Loops são como dar uma instrução e dizer 'repita isso X vezes' ou 'repita isso enquanto esta condição for verdadeira'.",
-            "**Exemplo em Pseudocódigo (Contador):**\n```\nPARA i DE 1 ATÉ 5 FAÇA\n    DesenheUmQuadrado()\nFIM_PARA\n```",
-            "Este loop desenhará 5 quadrados.",
-            "**Exemplo em Pseudocódigo (Condicional):**\n```\nENQUANTO temEspacoNaTela == VERDADEIRO FAÇA\n    DesenheUmCirculo()\n    verifiqueEspacoNaTela() // Atualiza a condição\nFIM_ENQUANTO\n```",
-            "Este loop desenhará círculos enquanto houver espaço na tela."
+            "Loops servem para repetir uma ação várias vezes sem ter que escrever o mesmo código de novo e de novo.",
+            "<strong>Exemplo com Contador (PARA):</strong>",
+            "<pre style='background-color:#2d2d2d; color:#f8f8f2; padding: 15px; border-radius: 5px; text-align: left;'><code>PARA i DE 1 ATÉ 3 FAÇA\n    ForjeUmaEspada()\nFIM_PARA</code></pre>"
         ],
-        "exercise": "Crie um pseudocódigo que peça ao usuário para adivinhar um número entre 1 e 10. O loop deve continuar até que o usuário acerte o número. Dê dicas se o palpite é maior ou menor.",
+        "activity": {
+            "question": "Você precisa que um personagem pule exatamente 5 vezes. Qual loop está correto?",
+            "options": [
+                "ENQUANTO personagemNaoCansar FAÇA Pular()",
+                "PARA i DE 1 ATÉ 5 FAÇA Pular()",
+                "SE personagemPuderPular ENTÃO Pular()"
+            ],
+            "correctAnswer": 1
+        },
         "vlibras_content": "Conteúdo VLibras para Repetições (Loops)"
     },
     {
@@ -58,26 +85,37 @@
         "title": "Eventos (Interação)",
         "number": 5,
         "content": [
-            "Eventos são ações que acontecem no seu programa, muitas vezes iniciadas pelo usuário, como clicar um botão, mover o mouse, ou pressionar uma tecla.",
-            "Seu programa pode 'ouvir' esses eventos e reagir a eles.",
-            "**Exemplo em Pseudocódigo:**\n```\nQUANDO BotaoDeClique FOR pressionado FAÇA\n    MostreUmaMensagem(\"Botão clicado!\")\nFIM_QUANDO\n\nQUANDO TeclaEspaco FOR pressionada FAÇA\n    PulePersonagem()\nFIM_QUANDO\n```",
-            "Isso torna os programas interativos!"
+            "Eventos são gatilhos, como clicar um botão ou pressionar uma tecla. O programa reage a essas ações.",
+            "<strong>Exemplo em Pseudocódigo:</strong>",
+            "<pre style='background-color:#2d2d2d; color:#f8f8f2; padding: 15px; border-radius: 5px; text-align: left;'><code>QUANDO TeclaEspaco FOR pressionada FAÇA\n    PulePersonagem()\nFIM_QUANDO</code></pre>"
         ],
-        "exercise": "Descreva em pseudocódigo como um programa reagiria aos seguintes eventos em um jogo simples: 1) Clique no botão 'Iniciar Jogo'. 2) Pressionamento da tecla 'Seta para Cima'. 3) Colisão do personagem com um obstáculo.",
+        "activity": {
+            "question": "Em um jogo, o que deve acontecer QUANDO o personagem colidir com uma moeda?",
+            "options": [
+                "Aumentar a pontuação.",
+                "Perder uma vida.",
+                "O jogo terminar."
+            ],
+            "correctAnswer": 0
+        },
         "vlibras_content": "Conteúdo VLibras para Eventos"
     },
     {
         "id": "desafio_final",
-        "title": "Desafio Final: Crie seu Jogo! (Blocos)",
+        "title": "Desafio Final: Crie seu Jogo!",
         "number": 6,
         "content": [
-            "Agora é sua vez de juntar tudo! Use os conceitos de sequências, loops, condicionais e eventos para montar um pequeno jogo ou animação usando blocos de arrastar e soltar.",
-            "**Objetivo:** Crie uma história interativa simples ou um mini-jogo.",
-            "**Requisitos:**\n*   Deve haver uma sequência de ações.\n*   Use pelo menos um loop.\n*   Use pelo menos uma estrutura condicional.\n*   Reaja a pelo menos um evento do usuário (ex: clique em um objeto).",
-            "**Interface do Desafio:** (Descrição de como será a interface de arrastar e soltar - blocos disponíveis: Mover para frente, Virar à direita/esquerda, Repetir X vezes, Se condição X então Y, Quando objeto Z for clicado...)",
-            "Solte sua imaginação! Não há resposta certa ou errada, o importante é aplicar o que aprendeu."
+            "É hora de juntar tudo! Use os conceitos de sequências, loops, condicionais e eventos para montar a lógica de um mini-jogo."
         ],
-        "exercise": "Este é o próprio desafio.",
+        "activity": {
+            "question": "Um dragão dorme. SE ele ouvir um barulho, ele acorda. QUANDO o jogador entrar na caverna, o jogador faz barulho. O que acontece?",
+            "options": [
+                "O dragão continua dormindo.",
+                "O dragão acorda.",
+                "O jogador pega o tesouro sem problemas."
+            ],
+            "correctAnswer": 1
+        },
         "vlibras_content": "Conteúdo VLibras para Desafio Final"
     }
 ]
